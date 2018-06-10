@@ -1,0 +1,50 @@
+{% import '_includes/forms' as forms %}
+
+{% css %}
+    .code {
+        color: #333333;
+        background-color: #F9F9F9;
+        padding: 10px 12px 8px;
+        border: 1px solid #D4D4D4;
+        border-radius: 5px;
+    }
+{% endcss %}
+
+{{ forms.lightswitchField({
+    name: 'useEverywhere',
+    label: 'Automatically load library?'|t('bootstrap'),
+    instructions: 'If enabled, the Bootstrap library will be automatically loaded on all front-end pages.'|t('bootstrap'),
+    on: (settings.useEverywhere ?? true),
+}) }}
+
+<p>If you don't want the library to be automatically included on every page, simply disable the switch above.</p>
+<p>After that, you'll be able to implement Bootstrap on a case-by-case basis, using the following Twig tag:</p>
+
+{% verbatim %}
+    <div class="code">{% useBootstrap %}</div>
+{% endverbatim %}
+
+<p>You can even jump start Bootstrap via PHP, if needed:</p>
+
+{% verbatim %}
+    <div class="code">Bootstrap::$plugin->useBootstrap();</div>
+{% endverbatim %}
+
+<hr/>
+
+<p>In order to optimize the performance of your site, Bootstrap will be loaded via CDN in the production environment.</p>
+
+{{ forms.lightswitchField({
+    name: 'useCdn',
+    label: 'Switch to CDN in production environment?'|t('bootstrap'),
+    instructions: 'If enabled, the Bootstrap library will be loaded via CDN on the production server.'|t('bootstrap'),
+    on: (settings.useCdn ?? true),
+}) }}
+
+{{ forms.textField({
+    name: 'production',
+    label: 'Name of production environment'|t('app'),
+    instructions: 'What is the name of your production environment?'|t('bootstrap'),
+    value: (settings.production ?? 'production'),
+    placeholder: 'production'|t('app'),
+}) }}

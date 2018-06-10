@@ -1,0 +1,41 @@
+{
+    "name": "doublesecretagency/craft-bootstrap",
+    "description": "Build your site with the Bootstrap front-end framework.",
+    "type": "craft-plugin",
+    "version": "4.1.1",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "bootstrap",
+        "twitter-bootstrap"
+    ],
+    "support": {
+        "docs": "https://github.com/doublesecretagency/craft-bootstrap/blob/v4/README.md",
+        "issues": "https://github.com/doublesecretagency/craft-bootstrap/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Double Secret Agency",
+            "homepage": "https://www.doublesecretagency.com/plugins"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "^3.0.0",
+        "twbs/bootstrap": "4.1.1"
+    },
+    "autoload": {
+        "psr-4": {
+          "doublesecretagency\\bootstrap\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "Bootstrap",
+        "handle": "bootstrap",
+        "schemaVersion": "0.0.0",
+        "changelogUrl": "https://raw.githubusercontent.com/doublesecretagency/craft-bootstrap/v4/CHANGELOG.md",
+        "class": "doublesecretagency\\bootstrap\\Bootstrap"
+    }
+}

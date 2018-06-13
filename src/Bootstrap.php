@@ -17,6 +17,7 @@
 
 namespace doublesecretagency\bootstrap;
 
+use Yii;
 use yii\base\Event;
 
 use Craft;
@@ -40,6 +41,15 @@ class Bootstrap extends Plugin
 
     /** @var bool $hasCpSettings The plugin has a settings page. */
     public $hasCpSettings = true;
+
+    /** @var array $_versions The current versions of each library. Fallback versions by default. */
+    protected $_versions = [
+        'bootstrap' => '4.1.1',
+        'jquery'    => '3.3.1',
+    ];
+
+    /** @var array $_lockRead Whether the composer.lock file been read already. */
+    protected $_lockRead = false;
 
     /** @inheritDoc */
     public function init()
@@ -77,6 +87,49 @@ class Bootstrap extends Plugin
     public function useBootstrap()
     {
         Craft::$app->getView()->registerAssetBundle(BootstrapAssets::class);
+    }
+
+    /**
+     * Get the version numbers of included libraries.
+     *
+     * @return array
+     */
+    public function getLibraryVersions(): array
+    {
+        // If versions have not yet been determined
+        if (!$this->_lockRead) {
+
+            // Mark composer.lock as read
+            $this->_lockRead = true;
+
+            // Locate composer.lock file
+            $filename = Yii::getAlias('@root/composer.lock');
+
+            // Get composer.lock file contents
+            $lock = @file_get_contents($filename);
+            if (!$lock) {
+                return $this->_versions;
+            }
+
+            // Convert to JSON data
+            $json = @json_decode($lock, true);
+            if (!$json) {
+                return $this->_versions;
+            }
+
+            // Get current versions of libraries
+            foreach ($json['packages'] as $package) {
+                switch ($package['name']) {
+                    case 'twbs/bootstrap':
+                    case 'components/jquery':
+                        $name    = preg_replace('/^[^\/]*\//', '', $package['name']);
+                        $version = preg_replace('/[^0-9\.]/', '', $package['version']);
+                        $this->_versions[$name] = $version;
+                        break;
+                }
+            }
+        }
+        return $this->_versions;
     }
 
     /**

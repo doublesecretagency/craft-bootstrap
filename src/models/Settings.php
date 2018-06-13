@@ -26,6 +26,12 @@ use craft\base\Model;
 class Settings extends Model
 {
 
+    /** @var bool $includeJquery Whether to load the jQuery library before Bootstrap. */
+    public $includeJquery = true;
+
+    /** @var bool $includePopper Whether to bundle the Popper library with Bootstrap. */
+    public $includePopper = true;
+
     /** @var bool $useEverywhere Whether to load the library for all front-end pages. */
     public $useEverywhere = true;
 

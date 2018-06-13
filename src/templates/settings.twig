@@ -11,6 +11,22 @@
 {% endcss %}
 
 {{ forms.lightswitchField({
+    name: 'includeJquery',
+    label: 'Include jQuery?'|t('bootstrap'),
+    instructions: 'If enabled, the jQuery library will be loaded before Bootstrap.'|t('bootstrap'),
+    on: (settings.includeJquery ?? true),
+}) }}
+
+{{ forms.lightswitchField({
+    name: 'includePopper',
+    label: 'Include Popper?'|t('bootstrap'),
+    instructions: 'If enabled, the Popper library will be bundled with Bootstrap.'|t('bootstrap'),
+    on: (settings.includePopper ?? true),
+}) }}
+
+<hr/>
+
+{{ forms.lightswitchField({
     name: 'useEverywhere',
     label: 'Automatically load library?'|t('bootstrap'),
     instructions: 'If enabled, the Bootstrap library will be automatically loaded on all front-end pages.'|t('bootstrap'),

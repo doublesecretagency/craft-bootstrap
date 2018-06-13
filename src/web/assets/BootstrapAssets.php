@@ -33,40 +33,56 @@ class BootstrapAssets extends AssetBundle
     {
         parent::init();
 
-        // CDN info
-        $cdnVersion = '4.1.1';
-        $cdn = null;
+        // Initialize
+        $this->css = [];
+        $this->js = [];
 
         // Get plugin settings
         $settings = Bootstrap::$plugin->getSettings();
 
-        // Get current environment
-        $environment = Craft::$app->getConfig()->env;
-
         // Whether this is the production environment
+        $environment = Craft::$app->getConfig()->env;
         $isProduction = ($settings->production == $environment);
+
+        // Optionally bundle Popper
+        if ($settings->includePopper) {
+            $bootstrapJs = 'bootstrap.bundle.min.js';
+        } else {
+            $bootstrapJs = 'bootstrap.min.js';
+        }
 
         // Check environment
         if ($settings->useCdn && $isProduction) {
 
+            // Get library versions for CDN paths
+            $versions = Bootstrap::$plugin->getLibraryVersions();
+
             // Use CDN in production environment
-            $cdn = "https://stackpath.bootstrapcdn.com/bootstrap/{$cdnVersion}/";
+            $bootstrapPath = "https://stackpath.bootstrapcdn.com/bootstrap/{$versions['bootstrap']}/";
+
+            // Optionally include jQuery
+            if ($settings->includeJquery) {
+                $this->js[] = "https://code.jquery.com/jquery-{$versions['jquery']}.min.js";
+            }
 
         } else {
 
             // Use local files in all other environments
-            $this->sourcePath = '@vendor/twbs/bootstrap/dist';
+            $this->sourcePath = '@vendor/';
+            $bootstrapPath = 'twbs/bootstrap/dist/';
+
+            // Optionally include jQuery
+            if ($settings->includeJquery) {
+                $this->js[] = 'components/jquery/jquery.min.js';
+            }
 
         }
 
-        // Register assets
-        $this->css = [
-            "{$cdn}css/bootstrap.min.css",
-        ];
+        // Register Bootstrap CSS file
+        $this->css[] = "{$bootstrapPath}css/bootstrap.min.css";
 
-        $this->js = [
-            "{$cdn}js/bootstrap.min.js",
-        ];
+        // Register Bootstrap JS file
+        $this->js[] = "{$bootstrapPath}js/{$bootstrapJs}";
 
     }
 

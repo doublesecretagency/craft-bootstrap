@@ -2,7 +2,7 @@
     "name": "doublesecretagency/craft-bootstrap",
     "description": "Build your site with the Bootstrap front-end framework.",
     "type": "craft-plugin",
-    "version": "4.1.1.1",
+    "version": "4.1.1.2",
     "keywords": [
         "craft",
         "cms",

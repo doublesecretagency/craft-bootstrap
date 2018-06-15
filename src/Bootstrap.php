@@ -28,6 +28,7 @@ use craft\web\View;
 use doublesecretagency\bootstrap\models\Settings;
 use doublesecretagency\bootstrap\twigextensions\BootstrapTwigExtension;
 use doublesecretagency\bootstrap\web\assets\BootstrapAssets;
+use doublesecretagency\bootstrap\web\assets\jQueryAssets;
 
 /**
  * Class Bootstrap
@@ -42,11 +43,14 @@ class Bootstrap extends Plugin
     /** @var bool $hasCpSettings The plugin has a settings page. */
     public $hasCpSettings = true;
 
-    /** @var array $_versions The current versions of each library. Fallback versions by default. */
-    protected $_versions = [
+    /** @var array $versions The current versions of each library. Fallback versions by default. */
+    public $versions = [
         'bootstrap' => '4.1.1',
         'jquery'    => '3.3.1',
     ];
+
+    /** @var bool $loadCdn Whether to load the library via CDN. */
+    public $loadCdn = false;
 
     /** @var array $_lockRead Whether the composer.lock file been read already. */
     protected $_lockRead = false;
@@ -86,50 +90,76 @@ class Bootstrap extends Plugin
      */
     public function useBootstrap()
     {
-        Craft::$app->getView()->registerAssetBundle(BootstrapAssets::class);
+        // Get view
+        $view = Craft::$app->getView();
+
+        // Load current library versions
+        $this->loadLibraryVersions();
+
+        // Get plugin settings
+        $settings = $this->getSettings();
+
+        // Whether this is the production environment
+        $environment = Craft::$app->getConfig()->env;
+        $isProduction = ($settings->production == $environment);
+
+        // Determine whether to load via CDN
+        $this->loadCdn = ($settings->useCdn && $isProduction);
+
+        // Register Bootstrap CSS & JS
+        $view->registerAssetBundle(BootstrapAssets::class);
+
+        // Optionally register jQuery JS
+        if ($this->getSettings()->includeJquery) {
+            $view->registerAssetBundle(jQueryAssets::class);
+        }
     }
 
     /**
-     * Get the version numbers of included libraries.
+     * Load the version numbers of included libraries.
      *
-     * @return array
+     * @return void
      */
-    public function getLibraryVersions(): array
+    public function loadLibraryVersions()
     {
-        // If versions have not yet been determined
-        if (!$this->_lockRead) {
+        // If versions have already been determined, bail
+        if ($this->_lockRead) {
+            return;
+        }
 
-            // Mark composer.lock as read
-            $this->_lockRead = true;
+        // Mark composer.lock as read
+        $this->_lockRead = true;
 
-            // Locate composer.lock file
-            $filename = Yii::getAlias('@root/composer.lock');
+        // Locate composer.lock file
+        $filename = Yii::getAlias('@root/composer.lock');
 
-            // Get composer.lock file contents
-            $lock = @file_get_contents($filename);
-            if (!$lock) {
-                return $this->_versions;
-            }
+        // Get composer.lock file contents
+        $lock = @file_get_contents($filename);
 
-            // Convert to JSON data
-            $json = @json_decode($lock, true);
-            if (!$json) {
-                return $this->_versions;
-            }
+        // If unable to retrieve lock file, bail
+        if (!$lock) {
+            return;
+        }
 
-            // Get current versions of libraries
-            foreach ($json['packages'] as $package) {
-                switch ($package['name']) {
-                    case 'twbs/bootstrap':
-                    case 'components/jquery':
-                        $name    = preg_replace('/^[^\/]*\//', '', $package['name']);
-                        $version = preg_replace('/[^0-9\.]/', '', $package['version']);
-                        $this->_versions[$name] = $version;
-                        break;
-                }
+        // Convert to JSON data
+        $json = @json_decode($lock, true);
+
+        // If unable to decode JSON, bail
+        if (!$json) {
+            return;
+        }
+
+        // Get current versions of libraries
+        foreach ($json['packages'] as $package) {
+            switch ($package['name']) {
+                case 'twbs/bootstrap':
+                case 'components/jquery':
+                    $name    = preg_replace('/^[^\/]*\//', '', $package['name']);
+                    $version = preg_replace('/[^0-9\.]/', '', $package['version']);
+                    $this->versions[$name] = $version;
+                    break;
             }
         }
-        return $this->_versions;
     }
 
     /**

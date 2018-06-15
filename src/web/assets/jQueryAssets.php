@@ -22,10 +22,10 @@ use craft\web\AssetBundle;
 use doublesecretagency\bootstrap\Bootstrap;
 
 /**
- * Class BootstrapAssets
+ * Class jQueryAssets
  * @since 4.1.1
  */
-class BootstrapAssets extends AssetBundle
+class jQueryAssets extends AssetBundle
 {
 
     /** @inheritdoc */
@@ -36,35 +36,25 @@ class BootstrapAssets extends AssetBundle
         // Whether to use CDN assets
         if (Bootstrap::$plugin->loadCdn) {
 
-            // Get library version of Bootstrap
-            $version = Bootstrap::$plugin->versions['bootstrap'];
+            // Get library version of jQuery
+            $version = Bootstrap::$plugin->versions['jquery'];
 
             // Use CDN in production environment
-            $bootstrapPath = "https://stackpath.bootstrapcdn.com/bootstrap/{$version}/";
+            $jqueryPath = "https://code.jquery.com/jquery-{$version}.min.js";
 
         } else {
 
             // Use local files in all other environments
-            $this->sourcePath = '@vendor/twbs/bootstrap/dist/';
+            $this->sourcePath = '@vendor/components/jquery/';
 
-            // No additional path necessary
-            $bootstrapPath = '';
+            // Specify filename
+            $jqueryPath = 'jquery.min.js';
 
-        }
-
-        // Optionally bundle Popper
-        if (Bootstrap::$plugin->getSettings()->includePopper) {
-            $bootstrapJs = 'bootstrap.bundle.min.js';
-        } else {
-            $bootstrapJs = 'bootstrap.min.js';
         }
 
         // Register assets
-        $this->css = [
-            "{$bootstrapPath}css/bootstrap.min.css"
-        ];
         $this->js = [
-            "{$bootstrapPath}js/{$bootstrapJs}"
+            $jqueryPath
         ];
 
     }

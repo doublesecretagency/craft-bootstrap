@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.1.1.2 - 2018-06-14
+
+### Changed
+- Improved management of asset bundles.
+
 ## 4.1.1.1 - 2018-06-12
 
 ### Added

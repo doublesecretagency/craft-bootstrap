@@ -106,13 +106,13 @@ class Bootstrap extends Plugin
         // Determine whether to load via CDN
         $this->loadCdn = ($settings->useCdn && $isProduction);
 
-        // Register Bootstrap CSS & JS
-        $view->registerAssetBundle(BootstrapAssets::class);
-
         // Optionally register jQuery JS
         if ($this->getSettings()->includeJquery) {
             $view->registerAssetBundle(jQueryAssets::class);
         }
+
+        // Register Bootstrap CSS & JS
+        $view->registerAssetBundle(BootstrapAssets::class);
     }
 
     /**

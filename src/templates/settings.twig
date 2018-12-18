@@ -11,6 +11,28 @@
 {% endcss %}
 
 {{ forms.lightswitchField({
+    name: 'useEverywhere',
+    label: 'Automatically load library?'|t('bootstrap'),
+    instructions: 'If enabled, the Bootstrap library will be automatically loaded on all front-end pages.'|t('bootstrap'),
+    on: (settings.useEverywhere ?? true),
+}) }}
+
+<p>If you don't want the library to be automatically included on every page, simply disable the switch above.</p>
+<p>You'll then be able to implement Bootstrap on a case-by-case basis, using the following Twig tag:</p>
+
+{% verbatim %}
+    <div class="code">{% useBootstrap %}</div>
+{% endverbatim %}
+
+<p>You can even jump start Bootstrap via PHP if needed:</p>
+
+{% verbatim %}
+    <div class="code">Bootstrap::$plugin->useBootstrap();</div>
+{% endverbatim %}
+
+<hr/>
+
+{{ forms.lightswitchField({
     name: 'includeJquery',
     label: 'Include jQuery?'|t('bootstrap'),
     instructions: 'If enabled, the jQuery library will be loaded before Bootstrap.'|t('bootstrap'),
@@ -23,28 +45,6 @@
     instructions: 'If enabled, the Popper library will be bundled with Bootstrap.'|t('bootstrap'),
     on: (settings.includePopper ?? true),
 }) }}
-
-<hr/>
-
-{{ forms.lightswitchField({
-    name: 'useEverywhere',
-    label: 'Automatically load library?'|t('bootstrap'),
-    instructions: 'If enabled, the Bootstrap library will be automatically loaded on all front-end pages.'|t('bootstrap'),
-    on: (settings.useEverywhere ?? true),
-}) }}
-
-<p>If you don't want the library to be automatically included on every page, simply disable the switch above.</p>
-<p>After that, you'll be able to implement Bootstrap on a case-by-case basis, using the following Twig tag:</p>
-
-{% verbatim %}
-    <div class="code">{% useBootstrap %}</div>
-{% endverbatim %}
-
-<p>You can even jump start Bootstrap via PHP, if needed:</p>
-
-{% verbatim %}
-    <div class="code">Bootstrap::$plugin->useBootstrap();</div>
-{% endverbatim %}
 
 <hr/>
 

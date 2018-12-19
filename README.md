@@ -35,6 +35,21 @@ Bootstrap::$plugin->useBootstrap();
 
 ***
 
+## Make sure your custom JS loads last
+
+You'll probably want Bootstrap (and/or jQuery) to finish loading before you run any custom JS. Here's how to ensure your custom JS gets loaded last...
+
+```twig
+{% set myScript = url('path/to/script.js') %}
+{% do view.registerJsFile(myScript, {
+    'depends': ['doublesecretagency\\bootstrap\\web\\assets\\BootstrapAssets']
+}) %}
+```
+
+This tells Craft that your JS _depends_ on the Bootstrap assets.
+
+***
+
 ## Uses a CDN in production
 
 To lighten the load, this plugin will switch to loading Bootstrap via a CDN when it runs in a production environment.

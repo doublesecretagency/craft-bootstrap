@@ -1,5 +1,13 @@
 # Changelog
 
+## 4.1.3 - 2018-12-18
+
+### Changed
+- Updated Bootstrap library to v4.1.3.
+
+### Fixed
+- Now loads jQuery before Bootstrap.
+
 ## 4.1.1.2 - 2018-06-14
 
 ### Changed

@@ -17,21 +17,16 @@
 
 namespace doublesecretagency\bootstrap\twigextensions;
 
+use doublesecretagency\bootstrap\web\assets\BootstrapAssets;
+use Twig\Extension\AbstractExtension;
+use Twig\Extension\GlobalsInterface;
+
 /**
  * Class BootstrapTwigExtension
  * @since 4.1.1
  */
-class BootstrapTwigExtension extends \Twig_Extension
+class BootstrapTwigExtension extends AbstractExtension implements GlobalsInterface
 {
-    /**
-     * Returns the name of the extension.
-     *
-     * @return string The extension name
-     */
-    public function getName()
-    {
-        return 'Bootstrap';
-    }
 
     /**
      * @inheritdoc
@@ -40,6 +35,16 @@ class BootstrapTwigExtension extends \Twig_Extension
     {
         return [
             new UseBootstrap_TokenParser(),
+        ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getGlobals(): array
+    {
+        return [
+            'bootstrapAssets' => [BootstrapAssets::class]
         ];
     }
 

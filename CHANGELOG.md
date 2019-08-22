@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.1.3.1 - 2019-08-22
+
+### Added
+- Added `bootstrapAssets` global Twig variable.
+
 ## 4.1.3 - 2018-12-18
 
 ### Changed

@@ -35,18 +35,18 @@ Bootstrap::$plugin->useBootstrap();
 
 ***
 
-## Make sure your custom JS loads last
+## Make sure your custom CSS and/or JS loads last
 
-You'll probably want Bootstrap (and/or jQuery) to finish loading before you run any custom JS. Here's how to ensure your custom JS gets loaded last...
+You'll probably want Bootstrap (and/or jQuery) to finish loading before you run any additional JS. Here's how to ensure your custom resources get loaded last...
 
 ```twig
-{% set myScript = url('path/to/script.js') %}
-{% do view.registerJsFile(myScript, {
-    'depends': ['doublesecretagency\\bootstrap\\web\\assets\\BootstrapAssets']
-}) %}
+{% do view.registerCssFile(url('path/to/styles.css'), {'depends': bootstrapAssets}) %}
+{% do view.registerJsFile(url('path/to/script.js'), {'depends': bootstrapAssets}) %}
 ```
 
-This tells Craft that your JS _depends_ on the Bootstrap assets.
+This tells Craft that your files _depend_ on the Bootstrap assets to be loaded first.
+
+`bootstrapAssets` is a variable which gets loaded automatically. It's simply the path Craft needs to locate the Bootstrap assets.
 
 ***
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.1.3.2 - 2022-01-19
+
+> {warning} **The Bootstrap plugin for Craft CMS is no longer being maintained.** It will be retired when Craft 4 is released.
+>
+> If you are interested in taking over ownership of this repo, please <a href="https://www.doublesecretagency.com/contact" target="_blank">contact us</a>.
+
 ## 4.1.3.1 - 2019-08-22
 
 ### Added

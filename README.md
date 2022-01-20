@@ -1,18 +1,17 @@
 Bootstrap plugin for Craft CMS
 ==============================
 
-Build your site with the Bootstrap front-end framework.
-
-***
-
->This is a plugin wrapper for adding Bootstrap to a Craft CMS site.*
+>This is a plugin wrapper for adding Bootstrap to a Craft CMS site.
 >
 >Credit for the Bootstrap library belongs to the [Bootstrap](https://getbootstrap.com/) team.
 
 ***
 
-_* The version number of this plugin aligns with the version of Bootstrap packaged inside._
+⚠️ **The Bootstrap plugin for Craft CMS is no longer being maintained.** It will be retired when Craft 4 is released.
 
+✉️ If you are interested in taking ownership of this repo, please <a href="https://www.doublesecretagency.com/contact" target="_blank">contact us</a>.
+
+***
 ***
 
 ## Automatically Loads Bootstrap
